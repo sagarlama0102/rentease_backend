@@ -16,7 +16,7 @@ export const CreateUserDTO = UserSchema.pick(
 ).refine( // extra validation for confirmPassword
     (data) => data.password === data.confirmPassword,
     {
-        message: "Passwords do not match",
+        message: "Passwords do not match try again",
         path: ["confirmPassword"]
     }
 )
