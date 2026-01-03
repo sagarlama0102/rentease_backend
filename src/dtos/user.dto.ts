@@ -11,7 +11,7 @@ export const CreateUserDTO = UserSchema.pick(
     }
 ).extend( // add new attribute to zod
     {
-        confirmPassword: z.string().min(6)
+        confirmPassword: z.string().min(6,"Confirm password must be at least 6 characters")
     }
 ).refine( // extra validation for confirmPassword
     (data) => data.password === data.confirmPassword,
