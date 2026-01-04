@@ -3,20 +3,19 @@ import { UserSchema } from "../types/user.type";
 // re-use UserSchema from types
 export const CreateUserDTO = UserSchema.pick(
     {
-        firstName: true,
-        lastName: true,
+        fullName: true,
         email: true,
         username: true,
         password: true
     }
 ).extend( // add new attribute to zod
     {
-        confirmPassword: z.string().min(6)
+        confirmPassword: z.string().min(6,"Confirm password must be at least 6 characters")
     }
 ).refine( // extra validation for confirmPassword
     (data) => data.password === data.confirmPassword,
     {
-        message: "Passwords do not match",
+        message: "Passwords do not match try again",
         path: ["confirmPassword"]
     }
 )
@@ -27,3 +26,4 @@ export const LoginUserDTO = z.object({
     password: z.string().min(6)
 });
 export type LoginUserDTO = z.infer<typeof LoginUserDTO>;
+
