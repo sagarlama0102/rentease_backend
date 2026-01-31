@@ -8,6 +8,7 @@ const UserSchema: Schema = new Schema<UserType>(
         phoneNumber: { type: String, unique: true },
         firstName: { type: String, required: true, },
         lastName: { type: String, required: true, },
+        profilePicture: {type: String,required: false},
         role: {
             type: String,
             enum: ['user', 'admin'],

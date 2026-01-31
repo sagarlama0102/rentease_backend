@@ -7,8 +7,9 @@ export interface IUserRepository {
     createUser(userData: Partial<IUser>): Promise<IUser>;
     getUserById(id: string): Promise<IUser | null>;
     getAllUsers(): Promise<IUser[]>;
-    updateUser(id: string, updateData: Partial<IUser>): Promise<IUser | null>;
-    deleteUser(id: string): Promise<boolean>;
+   
+    updateOneUser(id:string, data:Partial<IUser>): Promise<IUser |null>; //update one
+    deleteOneUser(id:string): Promise<boolean | null>; //delete one
 }
 // MongoDb Implementation of UserRepository
 export class UserRepository implements IUserRepository {
@@ -34,16 +35,15 @@ export class UserRepository implements IUserRepository {
         const users = await UserModel.find();
         return users;
     }
-    async updateUser(id: string, updateData: Partial<IUser>): Promise<IUser | null> {
-        // UserModel.updateOne({ _id: id }, { $set: updateData });
-        const updatedUser = await UserModel.findByIdAndUpdate(
-            id, updateData, { new: true } // return the updated document
-        );
-        return updatedUser;
+    async updateOneUser(id: string, data: Partial<IUser>): Promise<IUser | null> {
+        //UserModel.updateOne({"_id":id}, {$set:data})
+        const updateUser = await UserModel.findByIdAndUpdate(id, data, {new:true});
+        return updateUser;
     }
-    async deleteUser(id: string): Promise<boolean> {
-        // UserModel.deleteOne({ _id: id });
+    async deleteOneUser(id: string): Promise<boolean | null> {
+        //UserModel.deleteOne({"_id":id})
         const result = await UserModel.findByIdAndDelete(id);
-        return result ? true : false;
+        return result? true :null;
     }
+    
 }
