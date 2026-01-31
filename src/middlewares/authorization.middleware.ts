@@ -41,7 +41,8 @@ export const authorizationMiddleware = async(req: Request, res: Response, next: 
     }
 }
 // any function after authorizedMiddleware can access req.user
-export const adminOnlyMiddleware = (req: Request, res: Response, next: NextFunction)=>{
+export const adminOnlyMiddleware = async(
+    req: Request, res: Response, next: NextFunction)=>{
     try{
         if(req.user && req.user.role === "admin"){
             next();
