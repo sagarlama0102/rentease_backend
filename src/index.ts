@@ -9,7 +9,7 @@ import path from 'path';
 dotenv.config();
 console.log(process.env.PORT);
 import authRoutes from "./routes/auth.route";
-import adminRoutes from './routes/admin.route';
+import adminRoutes from './routes/admin/admin.route';
 const app: Application = express();
 
 let corsOptions = {
