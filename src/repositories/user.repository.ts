@@ -10,6 +10,9 @@ export interface IUserRepository {
    
     updateOneUser(id:string, data:Partial<IUser>): Promise<IUser |null>; //update one
     deleteOneUser(id:string): Promise<boolean | null>; //delete one
+
+    updateUser(id: string, updateData: Partial<IUser>): Promise<IUser | null>;
+    deleteUser(id: string): Promise<boolean>;
 }
 // MongoDb Implementation of UserRepository
 export class UserRepository implements IUserRepository {
@@ -44,6 +47,18 @@ export class UserRepository implements IUserRepository {
         //UserModel.deleteOne({"_id":id})
         const result = await UserModel.findByIdAndDelete(id);
         return result? true :null;
+    }
+    async updateUser(id: string, updateData: Partial<IUser>): Promise<IUser | null> {
+        // UserModel.updateOne({ _id: id }, { $set: updateData });
+        const updatedUser = await UserModel.findByIdAndUpdate(
+            id, updateData, { new: true } // return the updated document
+        );
+        return updatedUser;
+    }
+    async deleteUser(id: string): Promise<boolean> {
+        // UserModel.deleteOne({ _id: id });
+        const result = await UserModel.findByIdAndDelete(id);
+        return result ? true : false;
     }
     
 }

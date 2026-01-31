@@ -42,22 +42,22 @@ export class AdminUserService {
         const user = await userRepository.deleteOneUser(id);
         return user;
     }
-    // async updateUser(id: string, updateData: UpdateUserDTO){
-    //     const user = await userRepository.getUserById(id);
-    //     if(!user){
-    //         throw new HttpError(404, "User not found");
-    //     }
-    //     const updatedUser = await userRepository.updateUser(id, updateData);
-    //     return updatedUser;
-    // }
-    // async deleteUser(id: string){
-    //     const user = await userRepository.getUserById(id);
-    //     if(!user){
-    //         throw new HttpError(404, "User not found");
-    //     }
-    //     const deleted = await userRepository.deleteUser(id);
-    //     return deleted;
-    // }
+    async updateUser(id: string, updateData: UpdateUserDTO){
+        const user = await userRepository.getUserById(id);
+        if(!user){
+            throw new HttpError(404, "User not found");
+        }
+        const updatedUser = await userRepository.updateUser(id, updateData);
+        return updatedUser;
+    }
+    async deleteUser(id: string){
+        const user = await userRepository.getUserById(id);
+        if(!user){
+            throw new HttpError(404, "User not found");
+        }
+        const deleted = await userRepository.deleteUser(id);
+        return deleted;
+    }
 
 
 }
