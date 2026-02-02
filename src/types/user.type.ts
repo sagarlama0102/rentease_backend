@@ -7,9 +7,8 @@ export const UserSchema = z.object({
     firstName: z.string(),
     lastName: z.string(),
     phoneNumber: z.string().optional(),
-    
     role: z.enum(["user", "admin"]).default("user"),
-    profilePicture: z.string().optional(),
+    profilePicture: z.string().nullable().optional(),
     
 });
 
