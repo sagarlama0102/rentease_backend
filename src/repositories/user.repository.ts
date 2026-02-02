@@ -7,6 +7,10 @@ export interface IUserRepository {
     createUser(userData: Partial<IUser>): Promise<IUser>;
     getUserById(id: string): Promise<IUser | null>;
     getAllUsers(): Promise<IUser[]>;
+   
+    updateOneUser(id:string, data:Partial<IUser>): Promise<IUser |null>; //update one
+    deleteOneUser(id:string): Promise<boolean | null>; //delete one
+
     updateUser(id: string, updateData: Partial<IUser>): Promise<IUser | null>;
     deleteUser(id: string): Promise<boolean>;
 }
@@ -34,6 +38,16 @@ export class UserRepository implements IUserRepository {
         const users = await UserModel.find();
         return users;
     }
+    async updateOneUser(id: string, data: Partial<IUser>): Promise<IUser | null> {
+        //UserModel.updateOne({"_id":id}, {$set:data})
+        const updateUser = await UserModel.findByIdAndUpdate(id, data, {new:true});
+        return updateUser;
+    }
+    async deleteOneUser(id: string): Promise<boolean | null> {
+        //UserModel.deleteOne({"_id":id})
+        const result = await UserModel.findByIdAndDelete(id);
+        return result? true :null;
+    }
     async updateUser(id: string, updateData: Partial<IUser>): Promise<IUser | null> {
         // UserModel.updateOne({ _id: id }, { $set: updateData });
         const updatedUser = await UserModel.findByIdAndUpdate(
@@ -46,4 +60,5 @@ export class UserRepository implements IUserRepository {
         const result = await UserModel.findByIdAndDelete(id);
         return result ? true : false;
     }
+    
 }

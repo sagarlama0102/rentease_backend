@@ -1,0 +1,64 @@
+import { UserRepository } from "../../repositories/user.repository";
+import bcryptjs from "bcryptjs";
+import { HttpError } from "../../errors/http-error";
+import { CreateUserDTO, LoginUserDTO, UpdateUserDTO } from "../../dtos/user.dto";
+import { da } from "zod/v4/locales";
+
+let userRepository = new UserRepository();
+
+export class AdminUserService {
+    async createUser(data:CreateUserDTO){
+        const emailCheck = await userRepository.getUserByEmail(data.email);
+        if(emailCheck){
+            throw new HttpError(403, "Email already in use");
+        }
+        const usernameCheck = await userRepository.getUserByUsername(data.username);
+        if(usernameCheck){
+            throw new HttpError(403, "Username already in use");
+        }
+        //hash password
+        const hashedPassword = await bcryptjs.hash(data.password, 10);
+        data.password = hashedPassword;
+
+        const newUser = await userRepository.createUser(data);
+        return newUser;
+    }
+    async getUserById(id:string){
+        const user = await userRepository.getUserById(id);
+        if(!user) throw new HttpError(404, "User not found");
+        return user;
+    }
+    async getAllUsers(){
+        const user = await userRepository.getAllUsers();
+        //transform/map data if needed
+        return user;
+    }
+    // continue all 
+    async updateOneUser(id:string, data: any){
+        const user = await userRepository.updateOneUser(id, data);
+        return user;
+    }
+    async deleteOneUser(id:string ){
+        const user = await userRepository.deleteOneUser(id);
+        return user;
+    }
+    async updateUser(id: string, updateData: UpdateUserDTO){
+        const user = await userRepository.getUserById(id);
+        if(!user){
+            throw new HttpError(404, "User not found");
+        }
+        const updatedUser = await userRepository.updateUser(id, updateData);
+        return updatedUser;
+    }
+    async deleteUser(id: string){
+        const user = await userRepository.getUserById(id);
+        if(!user){
+            throw new HttpError(404, "User not found");
+        }
+        const deleted = await userRepository.deleteUser(id);
+        return deleted;
+    }
+
+
+}
+
