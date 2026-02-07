@@ -1,4 +1,4 @@
-import { connectDatabaseTest } from "../../database/mongodb";
+import { connectDatabaseTest } from "../database/mongodb";
 import mongoose from "mongoose";
 
 beforeAll(async () => {
