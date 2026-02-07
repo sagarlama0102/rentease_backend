@@ -44,7 +44,7 @@ export class AdminUserService {
         }
         
         //transform/map data if needed
-        return user;
+        return {user, pagination};
     }
     // continue all 
     async updateOneUser(id:string, data: any){
