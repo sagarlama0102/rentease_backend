@@ -80,7 +80,7 @@ export class AdminUserController {
             const userId = req.params.id;
             const user = await adminUserService.deleteOneUser(userId);
             return res.status(200).json(
-                {success:true, message:"User Updated"}
+                {success:true, message:"User Deleted"}
             )
         }
         catch(error: Error | any){
