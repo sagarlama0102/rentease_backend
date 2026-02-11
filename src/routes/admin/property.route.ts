@@ -10,9 +10,9 @@ const router = Router();
 router.use(authorizationMiddleware); // apply all with middleware
 router.use(adminMiddleware); // apply all with middleware
 
-router.post("/", uploads.single("propertyImage"), adminPropertyController.createProperty);
+router.post("/", uploads.single("propertyImages"), adminPropertyController.createProperty);
 router.get("/",adminPropertyController.getAllProperty);
-router.put("/:id", uploads.single("propertyImage"), adminPropertyController.updateProperty);
+router.put("/:id", uploads.single("propertyImages"), adminPropertyController.updateProperty);
 
 router.delete("/:id", adminPropertyController.deleteProperty);
 router.get("/:id", adminPropertyController.getPropertyById);

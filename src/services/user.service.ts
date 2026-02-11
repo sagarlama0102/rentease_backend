@@ -8,7 +8,7 @@ import { sendEmail } from "../config/email";
 
 let userRepository = new UserRepository();
 
-const CLIENT_URL = process.env.CLIENT_URL as string;
+const CLIENT_URL = process.env.CLIENT_URI as string;
 
 
 export class UserService {
