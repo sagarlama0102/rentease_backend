@@ -2,6 +2,8 @@ import { AdminUserService } from "../../services/admin/user.service";
 import { NextFunction, Request, Response } from "express";
 import z from "zod";
 import { CreateUserDTO, LoginUserDTO, UpdateUserDTO } from "../../dtos/user.dto";
+import { QueryParams } from "../../types/query.type";
+
 let adminUserService = new AdminUserService();
 
 export class AdminUserController {
@@ -46,9 +48,12 @@ export class AdminUserController {
     }
     async getAllUsers(req: Request, res: Response){
         try{
-            const user = await adminUserService.getAllUsers();
+            const { page, size, search }: QueryParams = req.query;
+            const {user, pagination} = await adminUserService.getAllUsers(
+                page, size, search
+            );
             return res.status(200).json(
-                {success:true, data: user ,message:"User Fetched"}
+                {success:true, data: user ,pagination: pagination, message:"User Fetched"}
             )
         }catch(error:Error | any){
             return res.status(error.statusCode || 500).json(
@@ -75,7 +80,7 @@ export class AdminUserController {
             const userId = req.params.id;
             const user = await adminUserService.deleteOneUser(userId);
             return res.status(200).json(
-                {success:true, message:"User Updated"}
+                {success:true, message:"User Deleted"}
             )
         }
         catch(error: Error | any){

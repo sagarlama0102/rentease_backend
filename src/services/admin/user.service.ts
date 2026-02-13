@@ -2,7 +2,7 @@ import { UserRepository } from "../../repositories/user.repository";
 import bcryptjs from "bcryptjs";
 import { HttpError } from "../../errors/http-error";
 import { CreateUserDTO, LoginUserDTO, UpdateUserDTO } from "../../dtos/user.dto";
-import { da } from "zod/v4/locales";
+
 
 let userRepository = new UserRepository();
 
@@ -28,10 +28,23 @@ export class AdminUserService {
         if(!user) throw new HttpError(404, "User not found");
         return user;
     }
-    async getAllUsers(){
-        const user = await userRepository.getAllUsers();
+    async getAllUsers(
+        page?: string, size?: string, search?: string
+    ){
+        const pageNumber = page ? parseInt(page) : 1;
+        const pageSize = size ? parseInt(size) : 10;
+        const {user, total} = await userRepository.getAllUsers(
+            pageNumber, pageSize, search
+        );
+        const pagination = {
+            page: pageNumber,
+            size: pageSize,
+            totalItems: total,
+            totalPages: Math.ceil(total / pageSize)
+        }
+        
         //transform/map data if needed
-        return user;
+        return {user, pagination};
     }
     // continue all 
     async updateOneUser(id:string, data: any){
