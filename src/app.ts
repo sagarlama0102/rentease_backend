@@ -14,6 +14,8 @@ import authRoutes from "./routes/auth.route";
 import adminRoutes from './routes/admin/admin.route';
 import propertyRoutes from './routes/property.route';
 import adminPropertyRoutes from './routes/admin/property.route';
+import adminBookingRoutes from "./routes/admin/booking.route";
+import bookingRoutes from "./routes/booking.route";
 const app: Application = express();
 
 let corsOptions = {
@@ -34,6 +36,8 @@ app.use('/api/admin/users',adminRoutes)
 app.use('/api/properties', propertyRoutes);
 app.use('/api/admin/properties', adminPropertyRoutes);
 
+app.use("/api/admin/bookings", adminBookingRoutes);
+app.use("/api/bookings", bookingRoutes);
 app.get('/', (req: Request, res: Response) => {
     return res.status(200).json({ success: "true", message: "Welcome to the API" });
 });

@@ -28,8 +28,12 @@ const BookingSchema: Schema = new Schema(
 );
 
 // This interface helps TypeScript understand the MongoDB document
-export interface IBooking extends Omit<BookingType, "_id">, Document {
+export interface IBooking extends Document {
   _id: mongoose.Types.ObjectId;
+  property: mongoose.Types.ObjectId; // Better for Mongoose internal logic
+  user: mongoose.Types.ObjectId;
+  status: BookingStatusEnum;
+  message?: string;
   createdAt: Date;
   updatedAt: Date;
 }
