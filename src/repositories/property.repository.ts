@@ -25,7 +25,7 @@ export class PropertyRepository implements IPropertyRepository{
         
     }
     async getAllProperty(
-        page: number, size: number, search?: string
+        page: number, size: number, search?: string, propertyType?: string, bhk?: string
     ): Promise<{ property: IProperty[]; total: number; }> {
         const filter: QueryFilter<IProperty> = {};
         if(search){
@@ -35,6 +35,13 @@ export class PropertyRepository implements IPropertyRepository{
                 { city: { $regex: search, $options: 'i' } }
             ];
         }
+        if (propertyType) {
+        filter.propertyType = propertyType;
+    }
+
+    if (bhk) {
+        filter.bhk = bhk;
+    }
         const [property, total]= await Promise.all([
             PropertyModel.find(filter)
                 .sort({ createdAt: -1 })
