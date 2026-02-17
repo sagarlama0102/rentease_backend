@@ -52,7 +52,7 @@ export class BookingRepository implements IBookingRepository{
     const [booking, total] = await Promise.all([
       BookingModel.find(filter)
         .populate("property")
-        .populate("user", "name email")
+        .populate("user", "firstName lastName email profilePicture name username")
         .sort({ createdAt: -1 })
         .skip((page - 1) * size)
         .limit(size),
