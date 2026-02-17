@@ -7,10 +7,7 @@ import { QueryParams } from "../types/query.type";
 const bookingService = new BookingService();
 
 export class BookingController {
-    /**
-     * User: Create a new booking request
-     * Logic: Uses the ID from req.user attached by authorizationMiddleware
-     */
+
     async createBooking(req: Request, res: Response) {
         try {
             // Your middleware attaches the user object here
@@ -48,10 +45,6 @@ export class BookingController {
         }
     }
 
-    /**
-     * User: Get "My Bookings"
-     * Logic: Passes the logged-in user's ID to the service to filter results
-     */
     async getMyBookings(req: Request, res: Response) {
         try {
             const userId = req.user?._id.toString();

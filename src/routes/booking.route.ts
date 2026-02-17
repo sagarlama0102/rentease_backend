@@ -6,12 +6,6 @@ import { authorizationMiddleware } from "../middlewares/authorization.middleware
 const router = Router();
 const bookingController = new BookingController();
 
-/**
- * Prefix: /api/bookings
- * All routes here are for the regular customer/user
- */
-
-// 1. Create a new booking (Book a viewing/property)
 router.post(
     "/", 
     authorizationMiddleware, 
