@@ -7,6 +7,9 @@ import { JWT_SECRET } from "../../../config";
 // Mock dependencies
 jest.mock("jsonwebtoken");
 jest.mock("../../../repositories/user.repository");
+jest.mock("../../../database/mongodb", () => ({
+  connectDatabaseTest: jest.fn().mockResolvedValue(true)
+}));
 
 describe("Authorization Middleware Unit Tests", () => {
     let mockRequest: Partial<Request>;
