@@ -25,7 +25,7 @@ describe("AdminPropertyController Unit Tests", () => {
         const validPropertyData = {
             title: "Luxury Admin Penthouse",
             description: "A description that must be at least twenty characters long for Zod.",
-            propertyType: "house",
+            propertyType: "HOUSE",
             bhk: "3BHK",
             price: 4500,
             address: "Main Street 10",
