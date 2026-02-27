@@ -36,6 +36,7 @@ export interface IBooking extends Document {
   message?: string;
   createdAt: Date;
   updatedAt: Date;
+  
 }
 
 export const BookingModel = mongoose.model<IBooking>("Bookings", BookingSchema);

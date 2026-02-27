@@ -21,11 +21,6 @@ export class PropertyRepository implements IPropertyRepository{
         const property = new PropertyModel(propertyData);
         return await property.save();
     }
-    // async getPropertyById(id: string): Promise<IProperty | null> {
-    //     const property = await PropertyModel.findById(id);
-    //     return property;
-        
-    // }
     async getPropertyById(id: string): Promise<any> { // Changed return type to any
     const property = await PropertyModel.findById(id);
     if (!property) return null;
