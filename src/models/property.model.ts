@@ -1,6 +1,6 @@
 import mongoose, {Document, Schema} from "mongoose"
 import { PropertyType, PropertyTypeEnum } from "../types/property.type"
-import { Doc } from "zod/v4/core";
+
 const PropertySchema: Schema = new Schema<PropertyType> (
     {
         title: {type:String, required: true,},

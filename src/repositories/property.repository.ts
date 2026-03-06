@@ -1,5 +1,7 @@
 import { QueryFilter } from "mongoose";
 import { PropertyModel, IProperty } from "../models/property.model";
+import { BookingModel } from "../models/booking.model";
+import { BookingStatusEnum } from "../types/booking.types";
 
 export interface IPropertyRepository {
     createProperty(propertyData: Partial<IProperty>): Promise<IProperty>;
@@ -19,13 +21,22 @@ export class PropertyRepository implements IPropertyRepository{
         const property = new PropertyModel(propertyData);
         return await property.save();
     }
-    async getPropertyById(id: string): Promise<IProperty | null> {
-        const property = await PropertyModel.findById(id);
-        return property;
-        
-    }
+    async getPropertyById(id: string): Promise<any> { // Changed return type to any
+    const property = await PropertyModel.findById(id);
+    if (!property) return null;
+
+    const isRented = await BookingModel.exists({
+        property: id,
+        status: BookingStatusEnum.CONFIRMED
+    });
+
+    return {
+        ...property.toObject(),
+        isRented: !!isRented 
+    };
+}
     async getAllProperty(
-        page: number, size: number, search?: string
+        page: number, size: number, search?: string, propertyType?: string, bhk?: string
     ): Promise<{ property: IProperty[]; total: number; }> {
         const filter: QueryFilter<IProperty> = {};
         if(search){
@@ -35,6 +46,13 @@ export class PropertyRepository implements IPropertyRepository{
                 { city: { $regex: search, $options: 'i' } }
             ];
         }
+        if (propertyType) {
+        filter.propertyType = propertyType;
+    }
+
+    if (bhk) {
+        filter.bhk = bhk;
+    }
         const [property, total]= await Promise.all([
             PropertyModel.find(filter)
                 .sort({ createdAt: -1 })
